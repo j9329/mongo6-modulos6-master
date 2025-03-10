@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <table id="tablaProducto" style="border-collapse:collapse;border: 2px solid;">
+        <thead>
+            <tr>
+                <th>Id</th><th>Nombre</th><th>Email</th><th>Foto</th>                
+            </tr>
+        </thead>
+        <tbody id="cuerpo-tabla">
+
+        </tbody>
+    </table>
+    
+
+    <script>
+        fetch('/usuarios/')
+            .then(response =>response.json())
+            .then(users=>{
+                
+                    
+                console.log(users);
+                for (let user of users){
+                   
+                    fila = document.createElement('tr');
+                    fila.id = user._id;
+                    
+                    fila.innerHTML = `<td>${user._id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.foto}</td>                    
+                    <td><button onclick=verRegistro('${user._id}')>Ver registro</button></td>`;
+                    
+                    
+                    
+                    document.getElementById('cuerpo-tabla').appendChild(fila);
+                }
+               
+            })
+
+            function verRegistro(id) {
+            window.location.href = `/usuario/${id}`;
+    }
+    </script>
+</body>
+
+</html>

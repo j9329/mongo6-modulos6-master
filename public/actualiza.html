@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #id { display: none;}
+    </style>
+</head>
+<body>
+    <h1>Lista tecnológica</h1>
+    <a href="/actualiza.html">Actualizar tecnología</a>
+    <select name="seleccionaOrdenador" id="seleccionaOrdenador">
+
+    </select>
+    <a href="/login">Ir a login</a>
+    <a href="/logout.html">Logout</a>
+    <script>
+       
+        const creaSelect = ()=>{
+            fetch('/items')
+        .then(response=>response.json())
+        .then(
+            ordenadores=>{
+                const selectOrd = document.getElementById("seleccionaOrdenador");
+                while (selectOrd.firstChild) {
+                    selectOrd.removeChild(selectOrd.firstChild);
+                }
+
+                for ( ordenador of ordenadores){
+                    let opcion = document.createElement('option');
+                    opcion.value = ordenador._id;
+                    opcion.innerHTML = ordenador.marca +'-' + ordenador.precio;
+                    document.getElementById("seleccionaOrdenador").appendChild(opcion)
+                }
+            }
+        ).catch(err=>alert(err))
+
+        }
+        
+
+
+        const traeOrdenador=()=>{
+            id = document.getElementById("seleccionaOrdenador").value;
+            marca = document.getElementById("marca").value;
+            precio = document.getElementById("precio").value;
+            modelo = document.getElementById("modelo").value;
+            cantidad = document.getElementById("cantidad").value;
+            diseño = document.getElementById("diseño").value;
+            reseñas = document.getElementById("reseñas").value;
+            fetch('/items/' + id)
+            .then( response =>response.json())
+            .then( ordenador => {
+                document.getElementById('id').value = ordenador._id;
+                document.getElementById('marca').value = ordenador.marca;
+                (document.getElementById('precio').value) = ordenador.precio;
+                document.getElementById('modelo').value = ordenador.modelo;
+                (document.getElementById('cantidad').value) = ordenador.cantidad;
+                document.getElementById('diseño').value = ordenador.diseño;
+                document.getElementById('reseñas').value = ordenador.reseñas;
+
+            })
+
+        }
+
+        const actualizaOrdenador = ()=>{
+            let marca = document.getElementById('marca').value;
+            let precio = Number(document.getElementById('precio').value);
+            let id=document.getElementById("seleccionaOrdenador").value;
+            let diseño = document.getElementById('diseño').value;
+            let modelo = document.getElementById('modelo').value;
+            let cantidad = Number(document.getElementById('cantidad').value);
+            let reseñas = document.getElementById('reseñas').value;
+                fetch('/items/' + id,{
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type' : 'application/JSON'
+                    },
+                    body: JSON.stringify({marca, precio, modelo, cantidad, diseño, reseñas})
+                }).then(
+                    ordenador=>{
+                        if ( ordenador ) {
+                            creaSelect();
+                            alert("ordenador ACTUALIZADO")
+                        } else {
+                            alert("No se insertó el ordenador")
+                        }
+                    }
+
+                )
+                .catch(err=>{
+                    alert(err);
+                })
+
+
+        }
+        document.getElementById("seleccionaOrdenador").addEventListener('change',traeOrdenador);
+        creaSelect();
+        traeOrdenador();
+    </script>
+    <input type="text" name="id" id="id">
+    <p>Marca: <input type="text" name="marca" id="marca"></p>
+    <p>Precio: <input type="number" name="precio" id="precio"></p>
+    <p>Modelo: <input type="text" name="modelo" id="modelo"></p>
+    <p>Cantidad: <input type="text" name="cantidad" id="cantidad"></p>
+    <p>Diseño: <input type="text" name="diseño" id="diseño"></p>
+    <p>Reseñas: <input type="text" name="reseñas" id="reseñas"></p>
+    <button id="btn-insertar" onclick="actualizaOrdenador()">Actualiza</button>
+    
+
+    </body>
+</html>

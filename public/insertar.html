@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Insertar</h1>
+<p>Marca: <input type="text" name="marca" id="marca"></p>
+<p>Precio: <input type="number" name="precio" id="precio"></p>
+<p>Modelo: <input type="text" name="modelo" id="modelo"></p>
+<p>Cantidad: <input type="number" name="cantidad" id="cantidad"></p>
+<p>Diseño: <input type="text" name="diseño" id="diseño"></p>
+<p>Reseñas: <input type="text" name="reseñas" id="reseñas"></p>
+<button id="btn-insertar">Insertar</button>
+
+<a href="/login">Ir a login</a>
+<a href="/logout.html">Logout</a>
+<a href="/registro.html">Registro nuevo usuario</a>
+<a href="/insertar.html">Nuevo medio tecnológico</a>
+<a href="/actualiza.html">Actualizar</a>
+
+<script>
+    const insertOrdenador = ()=>{
+        let marca = document.getElementById('marca').value;
+        let precio = Number(document.getElementById('precio').value);
+        let modelo = document.getElementById('modelo').value;
+        let cantidad = Number(document.getElementById('cantidad').value);
+        let diseño = document.getElementById('diseño').value;
+        let reseñas = document.getElementById('reseñas').value;
+        fetch('/items',{
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/JSON'
+            },
+            body: JSON.stringify({marca, precio,modelo, cantidad,diseño,reseñas})
+        }).then(
+            ordenador=>{
+                if ( ordenador ) {
+                    alert("ordenador insertdo")
+                } else {
+                    alert("No se insertó el ordenador")
+                }
+            }
+
+        )
+        .catch(err=>{
+            alert(err);
+        })
+    }
+
+    document.getElementById("btn-insertar").addEventListener('click',insertOrdenador)
+
+</script>
+</body>
+</html>

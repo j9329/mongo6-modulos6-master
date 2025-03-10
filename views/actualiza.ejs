@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Ordenador</title>
+</head>
+<body>
+   
+    <h1>Actualizar Ordenador</h1>
+    <form id="updateForm">
+        <input type="hidden" name="id" value="<%= ordenador._id %>">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" name="marca" value="<%= ordenador.marca %>">
+        <br>
+        <label for="precio">Precio:</label>
+        <input type="text" id="precio" name="precio" value="<%= ordenador.precio %>">
+        <br>
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" value="<%= ordenador.modelo %>">
+        <br>
+        <label for="cantidad">Cantidad:</label>
+        <input type="text" id="cantidad" name="cantidad" value="<%= ordenador.cantidad %>">
+        <br>
+        <label for="diseño">Diseño:</label>
+        <input type="text" id="diseño" name="diseño" value="<%= ordenador.diseño %>">
+        <br>
+        <label for="reseñas">Reseñas:</label>
+        <input type="text" id="reseñas" name="reseñas" value="<%= ordenador.reseñas %>">
+        <br>
+        <button type="submit">Actualizar</button>
+    </form>
+    <a href="/login">Ir a login</a>
+    <a href="/logout.html">Logout</a>
+    
+    <script>
+        
+            document.getElementById('updateForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const id = document.querySelector('input[name="id"]').value;
+            const marca = document.querySelector('input[name="marca"]').value;
+            const precio = document.querySelector('input[name="precio"]').value;
+            const modelo = document.querySelector('input[name="modelo"]').value;
+            const cantidad = document.querySelector('input[name="cantidad"]').value;
+            const diseño = document.querySelector('input[name="diseño"]').value;
+            const reseñas = document.querySelector('input[name="reseñas"]').value;
+
+
+            fetch(`/items/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ marca, precio, modelo, cantidad, diseño, reseñas})
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    alert('Error al actualizar el ordenador');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al actualizar el ordenador');
+            });
+        });
+    
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/index.html">Ir a web principal</a>
+    <script>
+        fetch("http://localhost:3006/borrartoken", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    credentials: "include" // Importante para enviar cookies de la misma fuente
+})
+.then(response => response.json())
+.then(data => console.log(data.mensaje))
+.catch(error => console.error("Error:", error));
+    </script>
+</body>
+</html>

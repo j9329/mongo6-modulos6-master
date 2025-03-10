@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        td{
+            border:2px solid;border-collapse:collapse;
+        }
+        th{
+            border:2px solid;border-collapse:collapse;
+        }
+    </style>
+</head>
+<body>
+    <a href="/login">Ir a login</a>
+    <a href="/logout.html">Logout</a>
+    <h1>Listado tecnológico</h1>
+    <a href="/registro.html">Registro nuevo usuario</a>
+    <a href="/insertar.html">Nuevo Ordenador</a>
+    <a href="/actualiza.html">Actualizar Ordenadores</a>
+    <table id="tablaProducto" style="border-collapse:collapse;border: 2px solid;">
+        <thead>
+            <tr>
+                <th>Id</th><th>Marca</th><th>Modelo</th><th>Precio</th><th>Cantidad</th><th>Diseño</th><th>Reseñas</th>                
+            </tr>
+        </thead>
+        <tbody id="cuerpo-tabla">
+
+        </tbody>
+    </table>
+    
+    <a id="enl" href="/login"><h1 id="enlace">LOGIN PARA ACCEDER A TODA LA FUNCIONALIDAD.</h1></a>
+    
+    <script>
+            
+        fetch('/items')
+        .then(response =>response.json())
+        .then(ordenadores=>{
+            
+                if(ordenadores){
+                    document.getElementById("enlace").innerHTML=""
+                    document.getElementById("enl").innerHTML=""
+                }
+            console.log(ordenadores);
+            for ( ordenador of ordenadores){
+               
+                fila = document.createElement('tr');
+                fila.id = ordenador._id;
+                
+                fila.innerHTML = `<td>${ordenador._id}</td>
+                <td>${ordenador.marca}</td>
+                <td>${ordenador.modelo}</td>
+                <td>${ordenador.precio}</td>
+                <td>${ordenador.cantidad}</td>
+                <td>${ordenador.diseño}</td>
+                <td>${ordenador.reseñas}</td>
+                
+                <td><button onclick=eliminaOrdenador('${ordenador._id}')>Borrar ordenador</button></td>
+                <td><button onclick=actualizaOrdenador('${ordenador._id}')>Actualizar ordenador</button></td>`
+                
+                ;
+                
+                document.getElementById('cuerpo-tabla').appendChild(fila);
+            }
+           
+        })
+     function actualizaOrdenador(id) {
+            window.location.href = `/update_ordenador?id=${id}`;
+    }
+   
+        function eliminaOrdenador(id){
+            if (confirm("¿Está seguro/a?")){
+                fetch('/items/'+id,{
+                    method:'DELETE'   
+                }).
+                then(response=>{
+                    if (  response.ok ) {
+                        document.getElementById(id).remove();
+                        alert("Ordenador eliminado");
+
+                    }
+                    else
+                    {
+                        alert("ERROR al eliminar")
+                    }
+
+                })
+            }
+        }
+
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
