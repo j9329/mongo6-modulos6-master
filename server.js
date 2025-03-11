@@ -56,7 +56,7 @@ const verificarToken = (req, res, next) => {
 
 
 
-app.get('/update_ordenador', (req, res) => {
+app.get('/update_ordenador',verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -74,7 +74,7 @@ app.get('/update_ordenador', (req, res) => {
   
 });
 
-app.post('/update_ordenador', (req, res) => {
+app.post('/update_ordenador', verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -100,7 +100,7 @@ app.post('/update_ordenador', (req, res) => {
 
 });
 // Ruta para subir archivos
-app.post('/subir', upload.single('file'), (req, res) => {
+app.post('/subir', upload.single('file'), verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -114,7 +114,7 @@ app.post('/subir', upload.single('file'), (req, res) => {
 });
 
 
-  app.get('/usuarios/', (req,res)=>{
+  app.get('/usuarios/', verificarToken, (req,res)=>{
     
     
     //if (!token) return res.status(401).json({ mensaje: "Acceso denegado. No hay token." });
@@ -146,7 +146,7 @@ app.post('/borrartoken', (req,res)=>{
 
 
 
-app.get('/usuario/:id', (req,res)=>{
+app.get('/usuario/:id', verificarToken, (req,res)=>{
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -241,7 +241,7 @@ app.post('/login', (req, res) => {
 
 
 // Obtener todos los ítems
-app.get("/items", (req, res) => {
+app.get("/items", verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -257,7 +257,7 @@ app.get("/items", (req, res) => {
 
 
 // Obtener un ítem por ID
-app.get("/items/:id", (req, res) => {
+app.get("/items/:id", verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -274,7 +274,7 @@ app.get("/items/:id", (req, res) => {
 
 
 // Crear un nuevo ítem
-app.post("/items", (req, res) => {
+app.post("/items", verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -297,7 +297,7 @@ app.post("/items", (req, res) => {
 
 
 // Actualizar un ítem existente
-app.put("/items/:id", (req, res) => {
+app.put("/items/:id", verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
@@ -317,7 +317,7 @@ app.put("/items/:id", (req, res) => {
 
 
 // Eliminar un ítem
-app.delete("/items/:id", (req, res) => {
+app.delete("/items/:id", verificarToken, (req, res) => {
   const token = req.cookies.token;
     if(!token){
       res.render("login");
